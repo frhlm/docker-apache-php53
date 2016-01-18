@@ -31,7 +31,7 @@ COPY run /usr/local/bin/run
 RUN ln -s /mnt/persist/etc/php5.ini /etc/php5/conf.d/zz_cloudnet.ini
 #RUN ln -s 
 RUN chmod +x /usr/local/bin/run
-RUN a2enmod rewrite
+RUN a2enmod rewrite proxy proxy_http
 
 EXPOSE 80
 CMD ["/usr/local/bin/run"]
