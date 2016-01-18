@@ -2,6 +2,7 @@ FROM ubuntu:12.04
 MAINTAINER Fredrik Holm <majingas@gmail.com>
 RUN mkdir -p /mnt/persist
 VOLUME ["/mnt/persist"]
+VOLUME ["/var/log]
 
 RUN apt-get update && \
     apt-get install -y \

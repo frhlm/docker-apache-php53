@@ -1,7 +1,7 @@
 apache-php
 ===================================
 
-A Docker image based on Ubuntu 12.04, serving the old PHP 5.3 running as Apache Module. Useful for Web developers in need for an old PHP version. In addition, the `error_reporting` setting in php.ini is configurable per container via environment variable.
+A Docker image based on Ubuntu 12.04, serving the old PHP 5.3 running as Apache Module. Useful for applications stuck on an old php version.
 
 Tags
 -----
@@ -12,10 +12,13 @@ Usage
 ------
 
 ```
-$ docker run -d -P bylexus/apache-php
+$ docker run -d -p 80:80 --net=host -v /mnt/persist/:/mnt/persist -v /var/log/docker:/var/log -e PHP_ERROR_REPORTING='E_ALL & ~E_STRICT' cloudnet/apache22-php53
 ```
 
-With all the options:
+This is made to work like a backport of php 5.3 in ubuntu 14.04 and run on port 80 on the host. The --net=host option allows you to connect to mysql over the host network rather than the container running it's own network stack.
+
+CAVEAT
+If you have applications configured to use localhost as db host they will need to be configured to use 127.0.0.1 instead.
 
 ```bash
 $ docker run -d -p 8080:80 \
