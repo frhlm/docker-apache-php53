@@ -1,0 +1,51 @@
+# To override the config below, create this file:
+Include /mnt/persist/apache2/conf.d/000-default-site*.conf
+Include /mnt/persist/apache2/conf.d/catch-al[l]
+
+# Cloudnet default virtual host
+# Matches both 80 and 88 to prepare for Varnish
+<VirtualHost *:80 *:88>
+        ServerAdmin webmaster@localhost
+        
+        DocumentRoot /mnt/persist/www/docroot/
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride All
+        </Directory>
+        <Directory /mnt/persist/www/docroot/>
+                Options FollowSymLinks -Indexes
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+        <Directory "/usr/lib/cgi-bin">
+                AllowOverride All
+                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                Order allow,deny
+                Allow from all
+        </Directory>
+
+        ErrorLog /var/log/apache2/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+
+     <Location /phpmyadmin>
+       RewriteEngine on
+       RewriteCond %{HTTPS} !^on$ [NC]
+       RewriteRule . https://%{HTTP_HOST}%{REQUEST_URI}  [L]
+    </Location>
+
+     <Location /svn>
+       RewriteEngine on
+       RewriteCond %{HTTPS} !^on$ [NC]
+       RewriteRule . https://%{HTTP_HOST}%{REQUEST_URI}  [L]
+    </Location>
+
+</VirtualHost>
+

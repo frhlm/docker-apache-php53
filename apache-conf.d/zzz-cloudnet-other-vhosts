@@ -1,0 +1,7 @@
+# To add custom config or other vhosts apart from default vhost, put your own config in /mnt/persist/www/conf.d
+
+# Hide version
+ServerTokens ProductOnly
+ServerSignature Off
+
+Include /mnt/persist/apache2/conf.d

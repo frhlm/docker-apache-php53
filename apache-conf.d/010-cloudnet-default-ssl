@@ -1,0 +1,59 @@
+# Override this in /mnt/persist/apache2/conf.d
+Include /mnt/persist/apache2/conf.d/010-cloudnet-default-ssl*.conf
+
+<IfModule mod_ssl.c>
+SSLSessionCache shm:/var/run/apache2/ssl_gcache_data(512000)
+SSLProtocol All -SSLv2 -SSLv3
+SSLHonorCipherOrder on
+SSLCipherSuite EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5
+<VirtualHost _default_:443>
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /mnt/persist/www/docroot
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /mnt/persist/www/docroot/>
+		Options FollowSymLinks
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog /var/log/apache2/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/ssl_access.log combined
+
+	SSLEngine on
+        SSLCertificateFile    /etc/ssl/cloudnet/cert.crt
+        SSLCertificateKeyFile /etc/ssl/cloudnet/cert.key
+        SSLCertificateChainFile /etc/ssl/cloudnet/intermediate.ca
+
+	<FilesMatch "\.(cgi|shtml|phtml|php)$">
+		SSLOptions +StdEnvVars
+	</FilesMatch>
+	<Directory /usr/lib/cgi-bin>
+		SSLOptions +StdEnvVars
+	</Directory>
+
+	BrowserMatch "MSIE [2-6]" \
+		nokeepalive ssl-unclean-shutdown \
+		downgrade-1.0 force-response-1.0
+	# MSIE 7 and newer should be able to use keepalive
+	BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
+
+</VirtualHost>
+</IfModule>

@@ -1,0 +1,9 @@
+Alias /apc_stats "/usr/local/nagios/apc_stats.php"
+
+<Directory "/usr/local/nagios/">
+    AllowOverride None
+    Order deny,allow
+    Deny from all
+    Allow from 127.0.0.1 80.169.183.115 10.78.11.115 2001:470:27:6ec:50a9:b773:0:1 95.142.169.7 2001:4b98:dc0:47:216:3eff:fe28:4630 109.107.38.76 2a02:1348:17c:841e:24:19ff:fef2:107a
+</Directory>
+
