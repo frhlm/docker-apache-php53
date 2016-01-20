@@ -26,7 +26,7 @@ RUN apt-get update && \
       php-console-table \
       php-apc
 
-COPY apache2.conf-precise /etc/apache2/apache.conf
+COPY apache2.conf-precise /etc/apache2/apache2.conf
 ADD apache-conf.d /etc/apache2/conf.d/
 COPY run /usr/local/bin/run
 RUN ln -s /mnt/persist/etc/php5.ini /etc/php5/conf.d/zz_cloudnet.ini
