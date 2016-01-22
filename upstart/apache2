@@ -1,0 +1,14 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+        /usr/bin/docker start apache_php_docker
+        ;;
+    stop)
+        /usr/bin/docker stop apache_php_docker
+        ;;
+    restart)
+        /usr/bin/docker stop apache_php_docker
+        /usr/bin/docker start apache_php_docker
+        ;;
+esac
