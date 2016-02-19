@@ -24,7 +24,8 @@ RUN apt-get update && \
       php5-memcache \
       php-pear \
       php-console-table \
-      php-apc
+      php-apc \
+      imagemagick
 
 COPY apache2.conf-precise /etc/apache2/apache2.conf
 ADD apache-conf.d /etc/apache2/conf.d/
